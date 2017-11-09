@@ -34,6 +34,7 @@ angular.module('Controllers',[])
 						$rootScope.username = $scope.username;
 						$rootScope.userAvatar = $scope.userAvatar;
 						$rootScope.loggedIn = true;
+						console.log('opening chatroom');
 						$location.path('/v1/ChatRoom');					
 					}else{		// if nickname exists
 						$scope.errMsg = "Use different nickname.";

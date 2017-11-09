@@ -24,7 +24,6 @@
                       <span class='direct-chat-name pull-left'>{{ messege.username }}</span>
                       <span class='direct-chat-timestamp pull-right'>{{ messege.msgTime }}</span>
                     </div><!-- /.direct-chat-info -->
-                    <img class="direct-chat-img" ng-src="app/css/dist/img/{{messege.userAvatar}}" alt="message user image" /><!-- /.direct-chat-img -->
                     <div ng-class="{'direct-chat-text' : true, 'text-right' : messege.ownMsg}">
                       <div ng-hide="hasFile">{{ messege.msg }}</div>
                       <!-- {{ messege.sendfile }} Media File Messeges -->

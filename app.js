@@ -9,6 +9,7 @@ var io = require('socket.io');				// using sockets
 var ios = io.listen(server);				// listening sockets
 var formidable = require('formidable');		// file upload module
 var util = require('util');
+var db = require('./dbconnection').db
 
 // Initializing Variables
 var nickname = [];
@@ -119,6 +120,25 @@ ios.on('connection', function(socket){
     	}
 		ios.sockets.emit('online-members', online_member);            	
    	});
+});
+
+app.get('/v1/login', function(req,res){
+	var queryparams = req.query
+	var username = queryparams.username
+	var password = queryparams.password
+
+	var query = "SELECT EXISTS (SELECT * from user_credentials where username='"+username + "' and " 
+	+ "password='"+password+"') as authenticated";
+
+	db.any(query).then(function(data) {
+		// success;
+		res.setHeader('Content-Type', 'application/json');
+		res.send(data);
+    })
+    .catch(function(error) {
+		console.log(error)
+        // error;
+    });
 });
 
 // route for uploading images asynchronously

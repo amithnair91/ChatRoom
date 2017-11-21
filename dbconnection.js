@@ -11,6 +11,14 @@ const cn = {
     password: '8d9d1c9300debb7cb62932ae35923cd56de47fd25a2f941ef81d669b3c827838'
 };
 
+// const localdbConnection = {
+//     host: 'localhost',
+//     port: 5432,
+//     database: 'chatapp',
+//     user: 'postgres',
+//     password: ''
+// };
+
 console.log('Connecting to DB')
 const db = pgp(cn);
 

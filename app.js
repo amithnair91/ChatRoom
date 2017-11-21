@@ -128,7 +128,7 @@ app.get('/v1/login', function(req,res){
 	var password = queryparams.password
 
 	var query = "SELECT EXISTS (SELECT * from user_credentials where username='"+username + "' and " 
-	+ "password='"+password+"') as authenticated";
+	+ "password='"+password+"') as success";
 
 	db.any(query).then(function(data) {
 		// success;
@@ -137,7 +137,28 @@ app.get('/v1/login', function(req,res){
     })
     .catch(function(error) {
 		console.log(error)
-        // error;
+		// error;
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: false});
+    });
+});
+
+app.get('/v1/signup', function(req,res){
+	var queryparams = req.query
+	var username = queryparams.username
+	var password = queryparams.password
+	var insertQuery = "INSERT INTO user_credentials(username, password) VALUES ('"+username+"', '"+password+"');"
+	
+	db.any(insertQuery).then(function(data) {
+		// success;
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: true});
+    })
+    .catch(function(error) {
+		console.log(error)
+		// error;
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: false});
     });
 });
 

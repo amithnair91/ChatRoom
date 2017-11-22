@@ -8,16 +8,31 @@
     	<div class="form-group errGroup">
     	</div>
 	    <div ng-class="{'form-group':true, 'has-feedback':true, 'has-error':isErrorReq}">	      	
-	        <input type="text" class="form-control" placeholder="nickname" ng-model="username" ng-change="isErrorReq=isErrorNick=false" focus-me="true"/>
+	        <input type="text" class="form-control" placeholder="username" ng-model="username" ng-change="isErrorReq=isErrorNick=false" focus-me="true"/>
+	        <input type="password" class="form-control" placeholder="password" ng-model="password" ng-change="isErrorReq=isErrorNick=false" focus-me="true"/>
 	        <span ng-hide="isErrorNick"class="glyphicon glyphicon-user form-control-feedback"></span>
 	        <span ng-hide="!isErrorNick" class="glyphicon glyphicon-remove form-control-feedback errText"></span>
 	    </div>
 
+			
         <div class="row">
 	        <div class="col-xs-12">
-	          <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Start</button>
+	          <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Login</button>
 	        </div><!-- /.col -->
-    	</div><!-- /.row -->
+			</div><!-- /.row -->
+			
+			<br/>
+			<div style="color:red;" nd-model="errorMessage">{{errorMessage}}</div>
+			<br/>
+			<div class="row">
+				<div class="col-xs-12">
+					<button type="submit" class="btn btn-primary" ng-click="redirectToSignup()">Signup</button>
+				</div><!-- /.col -->
+		</div>
+
+
+
+
       </div><!-- /.login-box-body -->
     </form><!-- / form -->
   </div><!-- /.login-box-body -->

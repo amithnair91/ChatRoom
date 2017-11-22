@@ -13,12 +13,13 @@ angular.module('Controllers',[])
         }
     };
 })
-.controller('loginCtrl', function ($scope, $location, $rootScope, $socket){		// Login Controller
+.controller('loginCtrl', function ($scope, $location, $rootScope, $socket,$http){		// Login Controller
 	// Varialbles Initialization.
 	$scope.userAvatar = "Avatar1.jpg";
 	$scope.isErrorReq = false;
 	$scope.isErrorNick = false;
 	$scope.username = "";
+	$scope.errorMessage = ""
 
 	// redirection if user logged in.
 	if($rootScope.loggedIn){
@@ -28,21 +29,31 @@ angular.module('Controllers',[])
 	// Functions for controlling behaviour.
 	$scope.redirect = function(){
 		if ($scope.username.length <= 20) {
-			if($scope.username){
-				$socket.emit('new user',{username : $scope.username, userAvatar : $scope.userAvatar},function(data){
-					if(data.success == true){	// if nickname doesn't exists	
-						$rootScope.username = $scope.username;
-						$rootScope.userAvatar = $scope.userAvatar;
-						$rootScope.loggedIn = true;
-						console.log('opening chatroom');
-						$location.path('/v1/ChatRoom');					
-					}else{		// if nickname exists
-						$scope.errMsg = "Use different nickname.";
-						$scope.isErrorNick = true;
-						$scope.isErrorReq = true;
-						$scope.printErr($scope.errMsg);	
-					}			
-				});
+			if($scope.username && $scope.password){
+
+				var loginUrl = $rootScope.baseUrl +"/v1/login?username="+$scope.username+"&password="+$scope.password
+
+				$http.get(loginUrl).success(function (response){
+					console.log("@@@@@@@@@@@@@@",response)
+					if(response[0].success === true){
+						$socket.emit('new user',{username : $scope.username, userAvatar : $scope.userAvatar},function(data){
+							if(data.success == true){	// if nickname doesn't exists	
+								$rootScope.username = $scope.username;
+								$rootScope.userAvatar = $scope.userAvatar;
+								$rootScope.loggedIn = true;
+								console.log('opening chatroom');
+								$location.path('/v1/ChatRoom');					
+							}else{		// if nickname exists
+								$scope.errMsg = "Use different nickname.";
+								$scope.isErrorNick = true;
+								$scope.isErrorReq = true;
+								$scope.printErr($scope.errMsg);	
+							}			
+						});
+					}else{
+						$scope.errorMessage = "Invalid Credentials"
+					}
+			});	
 			}else{		// blanck nickname 
 				$scope.errMsg = "Enter a nickname.";
 				$scope.isErrorReq = true;
@@ -54,6 +65,10 @@ angular.module('Controllers',[])
 			$scope.isErrorReq = true;
 			$scope.printErr($scope.errMsg);
 		}
+	}
+
+	$scope.redirectToSignup = function(){
+		$location.path('/v1/signup');
 	}
 
 	$scope.printErr = function(msg){	// popup for error message

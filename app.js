@@ -133,7 +133,7 @@ app.get('/v1/login', function(req,res){
 	db.any(query).then(function(data) {
 		// success;
 		res.setHeader('Content-Type', 'application/json');
-		res.send(data);
+		res.send({success: true});
     })
     .catch(function(error) {
 		console.log(error)

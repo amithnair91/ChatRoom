@@ -35,7 +35,7 @@ angular.module('Controllers',[])
 
 				$http.get(loginUrl).success(function (response){
 					console.log("@@@@@@@@@@@@@@",response)
-					if(response[0].success === true){
+					if(response.success === true){
 						$socket.emit('new user',{username : $scope.username, userAvatar : $scope.userAvatar},function(data){
 							if(data.success == true){	// if nickname doesn't exists	
 								$rootScope.username = $scope.username;

@@ -1,6 +1,6 @@
 <div class="login-box">
     <div class="login-logo">
-      <a href="/#/v1/"><b>Real</b>.Chat</a>
+      <a href="/#/v1/"><b>S1mple</b>.Chat</a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
       <h4 class="login-box-msg">Enter Username and Password</h4>
@@ -8,8 +8,27 @@
           <div class="form-group errGroup">
           </div>
           <div ng-class="{'form-group':true, 'has-feedback':true, 'has-error':isErrorReq}">	      	
-              <input type="text" class="form-control" placeholder="nickname" ng-model="username" ng-change="isErrorReq=isErrorNick=false" focus-me="true"/>
+              <input type="text" class="form-control" placeholder="username" ng-model="username" ng-change="isErrorReq=isErrorNick=false" focus-me="true"/>
               <input type="text" class="form-control" placeholder="password" ng-model="password" ng-change="isErrorReq=isErrorNick=false" focus-me="true"/>
+
+              <br/>
+              <div>
+                <span>Role</span>
+              <select ng-model="role" ng-init='role="student"'>
+                <option value="permanentStaff">Permanent_Staff</option>
+                <option value="guestStaff">Guest_Staff</option>
+                <option value="student">Student</option>
+              </select>
+
+
+            </div>
+
+            <br/>
+            <div>
+                <span ng-hide="role=='guestStaff'">PEN/Register id : </span>
+                <input size="20" type="text" ng-model="roleid" ng-change="isErrorReq=isErrorNick=false" focus-me="true" ng-hide="role=='guestStaff'"/>
+            </div>
+
               <span ng-hide="isErrorNick"class="glyphicon glyphicon-user form-control-feedback"></span>
               <span ng-hide="!isErrorNick" class="glyphicon glyphicon-remove form-control-feedback errText"></span>
           </div>

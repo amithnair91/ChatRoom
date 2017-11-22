@@ -16,7 +16,7 @@ angular.module('Controllers').controller('signupCtrl', function ($scope, $locati
 		if ($scope.username.length <= 20) {
 			if($scope.username && $scope.password){
             
-                var signupUrl = $rootScope.baseUrl +"/v1/signup?username="+$scope.username+"&password="+$scope.password
+                var signupUrl = $rootScope.baseUrl +"/v1/signup?username="+$scope.username+"&password="+$scope.password+"&role="+$scope.role+"&roleid="+$scope.roleid
 
                 $http.get(signupUrl).success(function (response){
                     if(response.success === true){

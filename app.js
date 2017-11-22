@@ -10,6 +10,7 @@ var ios = io.listen(server);				// listening sockets
 var formidable = require('formidable');		// file upload module
 var util = require('util');
 var db = require('./dbconnection').db
+var uuidv1 = require('uuid/v1');
 
 // Initializing Variables
 var nickname = [];
@@ -130,10 +131,12 @@ app.get('/v1/login', function(req,res){
 	var query = "SELECT EXISTS (SELECT * from user_credentials where username='"+username + "' and " 
 	+ "password='"+password+"') as success";
 
+	console.log("login query:=",query)
+
 	db.any(query).then(function(data) {
 		// success;
 		res.setHeader('Content-Type', 'application/json');
-		res.send({success: true});
+		res.send(data);
     })
     .catch(function(error) {
 		console.log(error)
@@ -147,13 +150,61 @@ app.get('/v1/signup', function(req,res){
 	var queryparams = req.query
 	var username = queryparams.username
 	var password = queryparams.password
+	var role = queryparams.role
+	var roleid = queryparams.roleid
 	var insertQuery = "INSERT INTO user_credentials(username, password) VALUES ('"+username+"', '"+password+"');"
-	
+
+	console.log("/v1/signup :=",insertQuery);
+
 	db.any(insertQuery).then(function(data) {
 		// success;
+switch(role){
+	case Permanent_Staff: 
+	var insertPermStaff = "INSERT INTO permstaff(username, penId)VALUES ("+username+", "+roleid+");"
+
+	console.log("insertPermStaff :=",insertPermStaff);
+
+	db.any(insertPermStaff).then(function(data) {
 		res.setHeader('Content-Type', 'application/json');
 		res.send({success: true});
-    })
+	}).catch(function(error) {
+		console.log(error)
+		// error;
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: false});
+    });
+	break;
+	case Guest_Staff: 
+	var uniqueId = uuidv1(); 
+	var insertGuestStaff = "INSERT INTO gueststaff(username, guestId)VALUES ("+username+", "+uniqueId+");"
+	console.log("insertGuestStaff :=",insertPermStaff)
+
+	db.any(insertGuestStaff).then(function(data) {
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: true});
+	}).catch(function(error) {
+		console.log(error)
+		// error;
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: false});});
+	break;
+	case Student: 
+	var insertStudent = "INSERT INTO student(username, registerId)VALUES ("+username+", "+roleid+");"
+	console.log("insertStudent :=",insertStudent);
+	
+	db.any(insertStudent).then(function(data) {
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: true})
+	}).catch(function(error) {
+		console.log(error)
+		// error;
+		res.setHeader('Content-Type', 'application/json');
+		res.send({success: false});});;
+	break;
+default:
+break;
+}
+})
     .catch(function(error) {
 		console.log(error)
 		// error;

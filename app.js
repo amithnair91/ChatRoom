@@ -161,18 +161,9 @@ app.get('/v1/signup', function(req,res){
 switch(role){
 	case Permanent_Staff: 
 	var insertPermStaff = "INSERT INTO permstaff(username, penId)VALUES ("+username+", "+roleid+");"
-
 	console.log("insertPermStaff :=",insertPermStaff);
-
 	db.any(insertPermStaff).then(function(data) {
-		res.setHeader('Content-Type', 'application/json');
-		res.send({success: true});
-	}).catch(function(error) {
-		console.log(error)
-		// error;
-		res.setHeader('Content-Type', 'application/json');
-		res.send({success: false});
-    });
+	})
 	break;
 	case Guest_Staff: 
 	var uniqueId = uuidv1(); 
@@ -180,30 +171,18 @@ switch(role){
 	console.log("insertGuestStaff :=",insertPermStaff)
 
 	db.any(insertGuestStaff).then(function(data) {
-		res.setHeader('Content-Type', 'application/json');
-		res.send({success: true});
-	}).catch(function(error) {
-		console.log(error)
-		// error;
-		res.setHeader('Content-Type', 'application/json');
-		res.send({success: false});});
+	});
 	break;
 	case Student: 
 	var insertStudent = "INSERT INTO student(username, registerId)VALUES ("+username+", "+roleid+");"
 	console.log("insertStudent :=",insertStudent);
-	
 	db.any(insertStudent).then(function(data) {
-		res.setHeader('Content-Type', 'application/json');
-		res.send({success: true})
-	}).catch(function(error) {
-		console.log(error)
-		// error;
-		res.setHeader('Content-Type', 'application/json');
-		res.send({success: false});});;
+	});
 	break;
 default:
 break;
 }
+res.send({success: true});
 })
     .catch(function(error) {
 		console.log(error)

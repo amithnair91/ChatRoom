@@ -5,6 +5,7 @@ angular.module('Controllers').controller('signupCtrl', function ($scope, $locati
 	$scope.isErrorNick = false;
     $scope.username = "";
     $scope.password = "";
+    $scope.errorMessage = "";
 
 	// redirection if user logged in.
 	if($rootScope.loggedIn){
@@ -21,6 +22,8 @@ angular.module('Controllers').controller('signupCtrl', function ($scope, $locati
                 $http.get(signupUrl).success(function (response){
                     if(response.success === true){
                         $location.path('/v1/');
+                    }else{
+                        $scope.errorMessage = "User Already exists";
                     }
                     // if(!response.isExpired){
                     //     msg.showme = false;
@@ -29,7 +32,7 @@ angular.module('Controllers').controller('signupCtrl', function ($scope, $locati
                     // }else{
                     //     $location.path('/v1')
                     // }
-                });	
+                });
 				// $socket.emit('new user',{username : $scope.username, userAvatar : $scope.userAvatar},function(data){
 				// 	if(data.success == true){	// if nickname doesn't exists	
 				// 		$rootScope.username = $scope.username;

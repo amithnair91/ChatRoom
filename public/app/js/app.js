@@ -10,6 +10,10 @@ App.config(function ($routeProvider, $socketProvider){
 		templateUrl: 'app/views/login.html',
 		controller: 'loginCtrl'
 	})
+	.when('/v1/signup', {
+		templateUrl: 'app/views/signup.html',
+		controller: 'signupCtrl'
+	})
 	.when('/v1/ChatRoom', {
 		templateUrl: 'app/views/chatRoom.html',
 		controller: 'chatRoomCtrl'

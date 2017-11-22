@@ -131,15 +131,12 @@ app.get('/v1/login', function(req,res){
 	var query = "SELECT EXISTS (SELECT * from user_credentials where username='"+username + "' and " 
 	+ "password='"+password+"') as success";
 
-	console.log("login query:=",query)
-
 	db.any(query).then(function(data) {
 		// success;
 		res.setHeader('Content-Type', 'application/json');
 		res.send(data);
     })
     .catch(function(error) {
-		console.log(error)
 		// error;
 		res.setHeader('Content-Type', 'application/json');
 		res.send({success: false});
@@ -154,38 +151,36 @@ app.get('/v1/signup', function(req,res){
 	var roleid = queryparams.roleid
 	var insertQuery = "INSERT INTO user_credentials(username, password) VALUES ('"+username+"', '"+password+"');"
 
-	console.log("/v1/signup :=",insertQuery);
-
 	db.any(insertQuery).then(function(data) {
 		// success;
-switch(role){
-	case Permanent_Staff: 
-	var insertPermStaff = "INSERT INTO permstaff(username, penId)VALUES ("+username+", "+roleid+");"
-	console.log("insertPermStaff :=",insertPermStaff);
-	db.any(insertPermStaff).then(function(data) {
-	})
-	break;
-	case Guest_Staff: 
-	var uniqueId = uuidv1(); 
-	var insertGuestStaff = "INSERT INTO gueststaff(username, guestId)VALUES ("+username+", "+uniqueId+");"
-	console.log("insertGuestStaff :=",insertPermStaff)
+// switch(role){
+// 	case "Permanent_Staff": 
+// 	var insertPermStaff = "INSERT INTO permstaff(username, penId)VALUES ("+username+", "+roleid+");"
+// 	console.log("insertPermStaff :=",insertPermStaff);
+// 	db.any(insertPermStaff).then(function(data) {
+// 	})
+// 	break;
+// 	case "Guest_Staff": 
+// 	var uniqueId = uuidv1(); 
+// 	var insertGuestStaff = "INSERT INTO gueststaff(username, guestId)VALUES ("+username+", "+uniqueId+");"
+// 	console.log("insertGuestStaff :=",insertPermStaff)
 
-	db.any(insertGuestStaff).then(function(data) {
-	});
-	break;
-	case Student: 
-	var insertStudent = "INSERT INTO student(username, registerId)VALUES ("+username+", "+roleid+");"
-	console.log("insertStudent :=",insertStudent);
-	db.any(insertStudent).then(function(data) {
-	});
-	break;
-default:
-break;
-}
+// 	db.any(insertGuestStaff).then(function(data) {
+// 	});
+// 	break;
+// 	case "Student": 
+// 	var insertStudent = "INSERT INTO student(username, registerId)VALUES ("+username+", "+roleid+");"
+// 	console.log("insertStudent :=",insertStudent);
+// 	db.any(insertStudent).then(function(data) {
+// 	});
+// 	break;
+// default:
+// break;
+// }
+res.setHeader('Content-Type', 'application/json');
 res.send({success: true});
 })
     .catch(function(error) {
-		console.log(error)
 		// error;
 		res.setHeader('Content-Type', 'application/json');
 		res.send({success: false});

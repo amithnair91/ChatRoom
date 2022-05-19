@@ -34,8 +34,8 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.13.2",
-    "express": "3.2.*",
-    "formidable": "^1.0.17",
+    "express": "3.4.0",
+    "formidable": "^3.2.4",
     "fs": "0.0.2",
     "multer": "^0.1.8",
     "pg-promise": "^5.9.7",
